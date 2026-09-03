@@ -2,17 +2,31 @@ import * as vscode from 'vscode';
 import { OpenAiCompatibleClient } from './client';
 import { OvhChatModelProvider, VENDOR } from './provider';
 
+const WALKTHROUGH_ID = 'eusovereignai.ovhcloud-ai-endpoints-copilot#ovhAiEndpoints.gettingStarted';
+const FIRST_RUN_KEY = 'ovhAiEndpoints.firstRunNoticeShown';
+
 export function activate(context: vscode.ExtensionContext): void {
   const provider = new OvhChatModelProvider(context);
+
+  void showFirstRunNotice(context, provider);
 
   context.subscriptions.push(
     vscode.lm.registerLanguageModelChatProvider(VENDOR, provider),
 
+    vscode.commands.registerCommand('ovhAiEndpoints.openGuide', () =>
+      vscode.commands.executeCommand('workbench.action.openWalkthrough', WALKTHROUGH_ID, false),
+    ),
+
     vscode.commands.registerCommand('ovhAiEndpoints.manage', async () => {
       const hasToken = Boolean(await provider.getToken());
       const items: vscode.QuickPickItem[] = [
-        { label: '$(key) Set API token', description: hasToken ? 'replace the stored token' : undefined },
+        {
+          label: '$(key) Set API token',
+          description: hasToken ? 'replace the stored token' : 'no token stored yet',
+          detail: 'Stored in VS Code secret storage, not in settings.json',
+        },
         { label: '$(plug) Test connection and list models' },
+        { label: '$(book) Open setup guide' },
         { label: '$(gear) Open settings' },
       ];
       if (hasToken) {
@@ -26,6 +40,8 @@ export function activate(context: vscode.ExtensionContext): void {
         await vscode.commands.executeCommand('ovhAiEndpoints.setToken');
       } else if (pick.label.includes('Test connection')) {
         await vscode.commands.executeCommand('ovhAiEndpoints.testConnection');
+      } else if (pick.label.includes('Open setup guide')) {
+        await vscode.commands.executeCommand('ovhAiEndpoints.openGuide');
       } else if (pick.label.includes('Open settings')) {
         await vscode.commands.executeCommand('workbench.action.openSettings', 'ovhAiEndpoints');
       } else if (pick.label.includes('Clear API token')) {
@@ -74,6 +90,35 @@ export function activate(context: vscode.ExtensionContext): void {
       }
     }),
   );
+}
+
+/**
+ * Once per installation: if no token is stored, tell the user where to put it.
+ */
+async function showFirstRunNotice(
+  context: vscode.ExtensionContext,
+  provider: OvhChatModelProvider,
+): Promise<void> {
+  if (context.globalState.get<boolean>(FIRST_RUN_KEY)) {
+    return;
+  }
+  if (await provider.getToken()) {
+    await context.globalState.update(FIRST_RUN_KEY, true);
+    return;
+  }
+  await context.globalState.update(FIRST_RUN_KEY, true);
+  const setToken = 'Set API token';
+  const guide = 'Open setup guide';
+  const choice = await vscode.window.showInformationMessage(
+    'OVHcloud AI Endpoints: add your API token to use OVHcloud models in Copilot Chat. The token is stored securely, not in settings.',
+    setToken,
+    guide,
+  );
+  if (choice === setToken) {
+    await vscode.commands.executeCommand('ovhAiEndpoints.setToken');
+  } else if (choice === guide) {
+    await vscode.commands.executeCommand('ovhAiEndpoints.openGuide');
+  }
 }
 
 export function deactivate(): void {

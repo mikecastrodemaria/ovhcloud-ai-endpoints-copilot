@@ -15,9 +15,34 @@ It is the VS Code companion of [OVHcloudAIEndpointsTester](https://github.com/mi
 
 ## Setup
 
-1. Get an access token from the OVHcloud control panel (Public Cloud > AI Endpoints > API keys).
-2. In VS Code, run **OVHcloud AI Endpoints: Set API token** from the Command Palette, or open the Copilot Chat model picker, choose **Manage Models...**, then **OVHcloud AI Endpoints**.
-3. Pick a model in the Copilot Chat model picker.
+An interactive version of this guide is available in VS Code: Command Palette > **OVHcloud AI Endpoints: Open setup guide** (or Help > Get Started > *Set up OVHcloud AI Endpoints for Copilot Chat*). The extension also shows a notification the first time it runs without a token.
+
+### 1. Get an OVHcloud AI Endpoints token
+
+1. Open the [OVHcloud control panel](https://www.ovh.com/manager/#/public-cloud/).
+2. Select your Public Cloud project.
+3. In the left menu, go to **AI & Machine Learning > AI Endpoints**, then the **API keys** tab.
+4. Create a key and copy it. Anonymous access exists but is limited to 2 requests/minute and is not supported here.
+
+### 2. Store the token in VS Code
+
+The token is **not** a setting. It lives in VS Code secret storage (macOS Keychain, Windows Credential Manager, libsecret on Linux), so it never ends up in `settings.json`, in your dotfiles, or in a git repository.
+
+Any of these three ways works:
+
+- Command Palette (`Cmd+Shift+P` / `Ctrl+Shift+P`) > **OVHcloud AI Endpoints: Set API token**, paste the key, press Enter.
+- Copilot Chat > click the model name > **Manage Models...** > **OVHcloud AI Endpoints**. If no token is stored, the same input box opens.
+- Command Palette > **OVHcloud AI Endpoints: Manage API token** for a small menu (set, test, clear, settings, guide).
+
+To replace the token, run **Set API token** again. To remove it, run **Clear API token**.
+
+### 3. Check the connection
+
+Command Palette > **OVHcloud AI Endpoints: Test connection and list models**. You should see the list of models your token gives access to. Errors (wrong token, rate limit, wrong base URL) are shown in a notification and logged in the **OVHcloud AI Endpoints** output channel (View > Output).
+
+### 4. Pick a model in Copilot Chat
+
+Copilot Chat > click the model name > **Manage Models...** > **OVHcloud AI Endpoints**, tick the models you want. They now appear in the model picker like any other model, with streaming, tool calling (agent mode) and image input for vision models.
 
 ## Settings
 

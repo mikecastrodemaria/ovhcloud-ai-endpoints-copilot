@@ -68,6 +68,46 @@
         "command": "ovhAiEndpoints.testConnection",
         "title": "Test connection and list models",
         "category": "OVHcloud AI Endpoints"
+      },
+      {
+        "command": "ovhAiEndpoints.openGuide",
+        "title": "Open setup guide",
+        "category": "OVHcloud AI Endpoints"
+      }
+    ],
+    "walkthroughs": [
+      {
+        "id": "ovhAiEndpoints.gettingStarted",
+        "title": "Set up OVHcloud AI Endpoints for Copilot Chat",
+        "description": "Three steps: get an OVHcloud token, store it in VS Code, pick a model in Copilot Chat.",
+        "steps": [
+          {
+            "id": "ovhAiEndpoints.step.getToken",
+            "title": "1. Get your OVHcloud AI Endpoints token",
+            "description": "Create an API key in the OVHcloud control panel: Public Cloud > your project > AI Endpoints > API keys.\n[Open OVHcloud control panel](https://www.ovh.com/manager/#/public-cloud/)",
+            "media": { "markdown": "media/walkthrough/1-get-token.md" }
+          },
+          {
+            "id": "ovhAiEndpoints.step.setToken",
+            "title": "2. Store the token in VS Code",
+            "description": "The token is saved in VS Code secret storage (macOS Keychain, Windows Credential Manager, libsecret on Linux). It never goes into settings.json.\n[Set API token](command:ovhAiEndpoints.setToken)",
+            "media": { "markdown": "media/walkthrough/2-set-token.md" },
+            "completionEvents": ["onCommand:ovhAiEndpoints.setToken"]
+          },
+          {
+            "id": "ovhAiEndpoints.step.testConnection",
+            "title": "3. Check the connection",
+            "description": "List the models your token gives access to.\n[Test connection](command:ovhAiEndpoints.testConnection)",
+            "media": { "markdown": "media/walkthrough/3-test.md" },
+            "completionEvents": ["onCommand:ovhAiEndpoints.testConnection"]
+          },
+          {
+            "id": "ovhAiEndpoints.step.pickModel",
+            "title": "4. Pick a model in Copilot Chat",
+            "description": "Open Copilot Chat, click the model name, choose Manage Models..., then OVHcloud AI Endpoints, and tick the models you want in the picker.\n[Open Copilot Chat](command:workbench.action.chat.open)",
+            "media": { "markdown": "media/walkthrough/4-pick-model.md" }
+          }
+        ]
       }
     ],
     "configuration": {
