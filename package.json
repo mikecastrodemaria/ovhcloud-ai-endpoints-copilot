@@ -1,0 +1,129 @@
+{
+  "name": "ovhcloud-ai-endpoints-copilot",
+  "displayName": "OVHcloud AI Endpoints for Copilot Chat",
+  "description": "Use OVHcloud AI Endpoints models (Llama, Mistral, Qwen, DeepSeek, gpt-oss...) in GitHub Copilot Chat. European sovereign AI, by EUSovereignAI. Unofficial community provider.",
+  "version": "0.1.0",
+  "publisher": "eusovereignai",
+  "license": "MIT",
+  "icon": "images/icon.png",
+  "author": { "name": "Mike Castro Demaria" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mikecastrodemaria/ovhcloud-ai-endpoints-copilot"
+  },
+  "bugs": {
+    "url": "https://github.com/mikecastrodemaria/ovhcloud-ai-endpoints-copilot/issues"
+  },
+  "homepage": "https://github.com/mikecastrodemaria/OVHcloudAIEndpointsTester",
+  "engines": {
+    "vscode": "^1.104.0"
+  },
+  "categories": [
+    "AI",
+    "Chat"
+  ],
+  "keywords": [
+    "ovh",
+    "ovhcloud",
+    "ai endpoints",
+    "language-models",
+    "copilot",
+    "llm",
+    "chat",
+    "sovereign",
+    "europe",
+    "eusovereignai"
+  ],
+  "extensionKind": [
+    "ui",
+    "workspace"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languageModelChatProviders": [
+      {
+        "vendor": "ovhcloud-ai-endpoints",
+        "displayName": "OVHcloud AI Endpoints",
+        "managementCommand": "ovhAiEndpoints.manage"
+      }
+    ],
+    "commands": [
+      {
+        "command": "ovhAiEndpoints.manage",
+        "title": "Manage API token",
+        "category": "OVHcloud AI Endpoints"
+      },
+      {
+        "command": "ovhAiEndpoints.setToken",
+        "title": "Set API token",
+        "category": "OVHcloud AI Endpoints"
+      },
+      {
+        "command": "ovhAiEndpoints.clearToken",
+        "title": "Clear API token",
+        "category": "OVHcloud AI Endpoints"
+      },
+      {
+        "command": "ovhAiEndpoints.testConnection",
+        "title": "Test connection and list models",
+        "category": "OVHcloud AI Endpoints"
+      }
+    ],
+    "configuration": {
+      "title": "OVHcloud AI Endpoints",
+      "properties": {
+        "ovhAiEndpoints.baseUrl": {
+          "type": "string",
+          "default": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1",
+          "markdownDescription": "OpenAI-compatible base URL. Default is the OVHcloud AI Endpoints unified route. You can point it to another compatible router (e.g. `https://router.huggingface.co/v1`)."
+        },
+        "ovhAiEndpoints.defaultMaxInputTokens": {
+          "type": "number",
+          "default": 32768,
+          "description": "Context window (input tokens) reported to Copilot when a model does not advertise one."
+        },
+        "ovhAiEndpoints.defaultMaxOutputTokens": {
+          "type": "number",
+          "default": 8192,
+          "description": "Max output tokens reported to Copilot when a model does not advertise one."
+        },
+        "ovhAiEndpoints.modelOverrides": {
+          "type": "object",
+          "default": {},
+          "markdownDescription": "Per-model overrides keyed by model id. Example: `{ \"Meta-Llama-3_3-70B-Instruct\": { \"maxInputTokens\": 131072, \"toolCalling\": true, \"imageInput\": false, \"hidden\": false } }`",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "maxInputTokens": { "type": "number" },
+              "maxOutputTokens": { "type": "number" },
+              "toolCalling": { "type": "boolean" },
+              "imageInput": { "type": "boolean" },
+              "hidden": { "type": "boolean" }
+            }
+          }
+        },
+        "ovhAiEndpoints.hideModelPatterns": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["embed", "whisper", "rerank", "sdxl", "stable-diffusion", "tts", "flux", "ocr", "guard"],
+          "description": "Model ids containing any of these substrings (case-insensitive) are not listed as chat models."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/vscode": "^1.104.0",
+    "@vscode/vsce": "^3.0.0",
+    "typescript": "^5.9.2"
+  }
+}
