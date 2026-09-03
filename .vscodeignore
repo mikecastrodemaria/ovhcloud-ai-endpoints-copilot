@@ -6,3 +6,4 @@ out/**/*.map
 tsconfig.json
 node_modules/**
 **/*.vsix
+NOTES-PRIVEES.md
