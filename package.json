@@ -3,7 +3,7 @@
   "displayName": "OVHcloud AI Endpoints for Copilot Chat",
   "description": "Use OVHcloud AI Endpoints models (Llama, Mistral, Qwen, DeepSeek, gpt-oss...) in GitHub Copilot Chat. European sovereign AI, by EUSovereignAI. Unofficial community provider.",
   "version": "0.1.0",
-  "publisher": "eusovereignai",
+  "publisher": "MikeCastroDemaria",
   "license": "MIT",
   "icon": "images/icon.png",
   "author": { "name": "Mike Castro Demaria" },

@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { OpenAiCompatibleClient } from './client';
 import { OvhChatModelProvider, VENDOR } from './provider';
 
-const WALKTHROUGH_ID = 'eusovereignai.ovhcloud-ai-endpoints-copilot#ovhAiEndpoints.gettingStarted';
+const WALKTHROUGH_ID = 'MikeCastroDemaria.ovhcloud-ai-endpoints-copilot#ovhAiEndpoints.gettingStarted';
 const FIRST_RUN_KEY = 'ovhAiEndpoints.firstRunNoticeShown';
 
 export function activate(context: vscode.ExtensionContext): void {
